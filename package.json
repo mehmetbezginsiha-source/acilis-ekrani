@@ -1,0 +1,44 @@
+{
+  "name": "acilis-ekrani",
+  "productName": "Açılış Ekranı",
+  "version": "0.2.0",
+  "description": "Bilgisayar açılınca gelen takvim, ayet, hadis ve İslam sanatı ekranı",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "paketle": "electron-builder --win",
+    "yayinla": "electron-builder --win --publish always"
+  },
+  "devDependencies": {
+    "electron": "33.2.1",
+    "electron-builder": "25.1.8"
+  },
+  "build": {
+    "appId": "com.sema.acilisekrani",
+    "productName": "Acilis Ekrani",
+    "files": [
+      "src/**/*",
+      "veri/**/*",
+      "gorseller/**/*",
+      "ses/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "src/simge.png"
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "owner": "mehmetbezginsiha-source",
+        "repo": "acilis-ekrani",
+        "releaseType": "release"
+      }
+    ]
+  },
+  "dependencies": {
+    "electron-updater": "^6.3.9"
+  }
+}

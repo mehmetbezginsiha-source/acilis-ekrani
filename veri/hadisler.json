@@ -1,0 +1,91 @@
+{
+ "konu": "Çalışma, emek, vakit ve işi sağlam yapma",
+ "not": "dogrulandi: false olanlar Diyanet'in 'Hadislerle İslam' eseriyle karşılaştırılıp onaylanmalı.",
+ "liste": [
+  {
+   "arapca": "مَا أَكَلَ أَحَدٌ طَعَامًا قَطُّ خَيْرًا مِنْ أَنْ يَأْكُلَ مِنْ عَمَلِ يَدِهِ، وَإِنَّ نَبِيَّ اللَّهِ دَاوُدَ عَلَيْهِ السَّلَامُ كَانَ يَأْكُلُ مِنْ عَمَلِ يَدِهِ",
+   "turkce": "Hiç kimse, elinin emeğinden daha hayırlı bir yemek yememiştir. Allah'ın peygamberi Dâvûd (as) da kendi elinin emeğinden yerdi.",
+   "kaynak": "Buhârî, Büyû', 15",
+   "dogrulandi": false,
+   "etiketler": []
+  },
+  {
+   "arapca": "إِنَّ اللَّهَ يُحِبُّ إِذَا عَمِلَ أَحَدُكُمْ عَمَلًا أَنْ يُتْقِنَهُ",
+   "turkce": "Allah, sizden biriniz bir iş yaptığında onu sağlam ve güzel yapmasını sever.",
+   "kaynak": "Beyhakî, Şuabü'l-îmân; Taberânî, el-Mu'cemü'l-evsat",
+   "dogrulandi": false,
+   "etiketler": []
+  },
+  {
+   "arapca": "نِعْمَتَانِ مَغْبُونٌ فِيهِمَا كَثِيرٌ مِنَ النَّاسِ: الصِّحَّةُ وَالْفَرَاغُ",
+   "turkce": "İki nimet vardır ki insanların çoğu onların kıymetini bilmeyip aldanmıştır: Sağlık ve boş vakit.",
+   "kaynak": "Buhârî, Rikâk, 1",
+   "dogrulandi": false,
+   "etiketler": []
+  },
+  {
+   "arapca": "اغْتَنِمْ خَمْسًا قَبْلَ خَمْسٍ: شَبَابَكَ قَبْلَ هَرَمِكَ، وَصِحَّتَكَ قَبْلَ سَقَمِكَ، وَغِنَاكَ قَبْلَ فَقْرِكَ، وَفَرَاغَكَ قَبْلَ شُغْلِكَ، وَحَيَاتَكَ قَبْلَ مَوْتِكَ",
+   "turkce": "Beş şey gelmeden önce beş şeyin kıymetini bil: İhtiyarlığından önce gençliğinin, hastalığından önce sağlığının, fakirliğinden önce zenginliğinin, meşguliyetinden önce boş vaktinin ve ölümünden önce hayatının.",
+   "kaynak": "Hâkim, el-Müstedrek",
+   "dogrulandi": false,
+   "etiketler": []
+  },
+  {
+   "arapca": "إِنْ قَامَتِ السَّاعَةُ وَفِي يَدِ أَحَدِكُمْ فَسِيلَةٌ، فَإِنِ اسْتَطَاعَ أَنْ لَا تَقُومَ حَتَّى يَغْرِسَهَا فَلْيَغْرِسْهَا",
+   "turkce": "Kıyamet kopacak olsa ve birinizin elinde bir fidan bulunsa, kıyamet kopmadan önce onu dikebilecekse diksin.",
+   "kaynak": "Ahmed b. Hanbel, Müsned; Buhârî, el-Edebü'l-müfred",
+   "dogrulandi": false,
+   "etiketler": []
+  },
+  {
+   "arapca": "أَحَبُّ الْأَعْمَالِ إِلَى اللَّهِ أَدْوَمُهَا وَإِنْ قَلَّ",
+   "turkce": "Allah katında amellerin en sevimlisi, az da olsa devamlı olanıdır.",
+   "kaynak": "Buhârî, Rikâk, 18; Müslim, Salâtü'l-müsâfirîn",
+   "dogrulandi": false,
+   "etiketler": []
+  },
+  {
+   "arapca": "الْمُؤْمِنُ الْقَوِيُّ خَيْرٌ وَأَحَبُّ إِلَى اللَّهِ مِنَ الْمُؤْمِنِ الضَّعِيفِ، وَفِي كُلٍّ خَيْرٌ، احْرِصْ عَلَى مَا يَنْفَعُكَ، وَاسْتَعِنْ بِاللَّهِ وَلَا تَعْجَزْ",
+   "turkce": "Güçlü mümin, Allah katında zayıf müminden daha hayırlı ve daha sevimlidir; ama her birinde hayır vardır. Sana fayda verecek şeye sarıl, Allah'tan yardım iste ve acizlik gösterme.",
+   "kaynak": "Müslim, Kader, 34",
+   "dogrulandi": false,
+   "etiketler": []
+  },
+  {
+   "arapca": "خَيْرُ يَوْمٍ طَلَعَتْ عَلَيْهِ الشَّمْسُ يَوْمُ الْجُمُعَةِ",
+   "turkce": "Üzerine güneşin doğduğu en hayırlı gün cuma günüdür.",
+   "kaynak": "Müslim, Cuma, 17",
+   "dogrulandi": false,
+   "etiketler": [
+    "cuma"
+   ]
+  },
+  {
+   "arapca": "مَنْ صَامَ رَمَضَانَ إِيمَانًا وَاحْتِسَابًا غُفِرَ لَهُ مَا تَقَدَّمَ مِنْ ذَنْبِهِ",
+   "turkce": "Kim inanarak ve sevabını yalnız Allah'tan umarak Ramazan orucunu tutarsa, geçmiş günahları bağışlanır.",
+   "kaynak": "Buhârî, Îmân, 28",
+   "dogrulandi": false,
+   "etiketler": [
+    "ramazan"
+   ]
+  },
+  {
+   "arapca": "مَنْ قَامَ لَيْلَةَ الْقَدْرِ إِيمَانًا وَاحْتِسَابًا غُفِرَ لَهُ مَا تَقَدَّمَ مِنْ ذَنْبِهِ",
+   "turkce": "Kim Kadir gecesini inanarak ve sevabını yalnız Allah'tan umarak ihya ederse, geçmiş günahları bağışlanır.",
+   "kaynak": "Buhârî, Îmân, 25",
+   "dogrulandi": false,
+   "etiketler": [
+    "kadir"
+   ]
+  },
+  {
+   "arapca": "إِنَّمَا بُعِثْتُ لِأُتَمِّمَ صَالِحَ الْأَخْلَاقِ",
+   "turkce": "Ben ancak güzel ahlakı tamamlamak için gönderildim.",
+   "kaynak": "Ahmed b. Hanbel, Müsned; Buhârî, el-Edebü'l-müfred",
+   "dogrulandi": false,
+   "etiketler": [
+    "mevlid"
+   ]
+  }
+ ]
+}

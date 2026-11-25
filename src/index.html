@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' file:; img-src 'self' file: data:; media-src 'self' file:; style-src 'self' 'unsafe-inline'; font-src 'self' file:">
+  <title>Açılış Ekranı</title>
+  <link rel="stylesheet" href="stil.css">
+</head>
+<body>
+  <div id="arkaplan"></div>
+  <div id="ortu"></div>
+  <img id="onYukleme" alt="" hidden>
+
+  <main>
+    <section class="sol">
+      <header>
+        <p class="selam" id="selam">Hoş geldiniz</p>
+        <p class="saat" id="saat">--:--</p>
+        <p class="tarih" id="tarih"></p>
+        <p class="hicri" id="hicri"></p>
+        <p class="ozelGun" id="ozelGun" hidden></p>
+      </header>
+
+      <article class="kart" id="ayetKart">
+        <h2>Günün Ayeti</h2>
+        <p class="arapca" id="ayetArapca" lang="ar" dir="rtl"></p>
+        <p class="meal" id="ayetMeal"></p>
+        <p class="kaynak" id="ayetKaynak"></p>
+      </article>
+
+      <article class="kart" id="hadisKart">
+        <h2>Günün Hadisi</h2>
+        <p class="arapca" id="hadisArapca" lang="ar" dir="rtl"></p>
+        <p class="meal" id="hadisTurkce"></p>
+        <p class="kaynak" id="hadisKaynak"></p>
+      </article>
+    </section>
+
+    <section class="orta"></section>
+
+    <section class="sag">
+      <div class="takvimBaslik">
+        <h2>Bugün</h2>
+        <span id="ozet"></span>
+      </div>
+      <form id="isFormu" autocomplete="off">
+        <input id="isBaslik" placeholder="Yeni iş ekle…" required maxlength="200">
+        <input id="isSaat" type="time" required>
+        <select id="isSure" title="Süre">
+          <option value="30">30 dk</option>
+          <option value="60" selected>1 saat</option>
+          <option value="90">1,5 saat</option>
+          <option value="120">2 saat</option>
+          <option value="180">3 saat</option>
+        </select>
+        <button type="submit" title="Ekle">+</button>
+      </form>
+      <ol id="saatler"></ol>
+    </section>
+  </main>
+
+  <footer id="eser">
+    <span id="eserBaslik"></span>
+    <span id="eserBilgi"></span>
+  </footer>
+
+  <audio id="karsilama" preload="auto"></audio>
+  <script src="ekran.js"></script>
+</body>
+</html>

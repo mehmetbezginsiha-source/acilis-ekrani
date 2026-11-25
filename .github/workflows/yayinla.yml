@@ -1,0 +1,21 @@
+# Yeni sürüm etiketi (ör. v0.3.0) gönderilince Windows kurulum dosyasını derleyip
+# GitHub Releases'a koyar. Bilgisayardaki uygulama oradan kendini günceller.
+name: Windows sürümü yayınla
+on:
+  push:
+    tags: ["v*"]
+permissions:
+  contents: write
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run yayinla
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

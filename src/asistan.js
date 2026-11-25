@@ -4,6 +4,7 @@ const path = require('path');
 const fs = require('fs');
 const Anthropic = require('@anthropic-ai/sdk').default;
 const { MsEdgeTTS, OUTPUT_FORMAT } = require('msedge-tts');
+const acici = require('./acici');
 
 const ANAHTAR_DOSYASI = () => path.join(app.getPath('userData'), 'anahtar.bin');
 const AYAR_DOSYASI = () => path.join(app.getPath('userData'), 'asistan.json');
@@ -97,6 +98,20 @@ const ARACLAR = [
     input_schema: { type: 'object', properties: { id: { type: 'string' }, yapildi: { type: 'boolean' } }, required: ['id', 'yapildi'], additionalProperties: false },
     strict: true,
   },
+  {
+    name: 'ac',
+    description: 'Bilgisayarda bir şey açar. Kullanıcı "Chrome\'u aç", "YouTube\'u aç", "Word\'ü aç", "indirilenleri aç", "şunu Google\'da ara" gibi bir şey istediğinde kullan. tur: program (yüklü uygulama), site (web sitesi), arama (Google araması), klasor (belgeler, indirilenler, masaüstü, resimler, müzik, videolar). Programlarda tam ve resmi adı yaz (ör. "vs code" için "Visual Studio Code", "chrome" için "Google Chrome"). Bilinen bir site adı söylenirse (YouTube, WhatsApp, Gmail) tur site olsun ve hedefe sitenin adresini yaz.',
+    input_schema: {
+      type: 'object',
+      properties: {
+        tur: { type: 'string', enum: ['program', 'site', 'arama', 'klasor'] },
+        hedef: { type: 'string', description: 'Program adı, web adresi, arama metni ya da klasör adı' },
+      },
+      required: ['tur', 'hedef'],
+      additionalProperties: false,
+    },
+    strict: true,
+  },
 ];
 
 function sistemMetni(baglam) {
@@ -109,7 +124,7 @@ Cevapların sesli okunacak. Bu yüzden:
 - Madde işareti, başlık, emoji, yıldız gibi biçimlendirme kullanma; düz konuşma cümleleriyle yaz.
 - Saatleri "saat on dört otuz" gibi değil, "14.30" gibi yaz.
 
-Takvim için araçların var: işleri sorulduğunda takvimi_getir, yeni bir şey eklemen istendiğinde is_ekle, bir iş bittiğinde is_durumu. Gün ve saatleri aşağıdaki şimdiki zamana göre hesapla. Ekledikten sonra ne eklediğini kısaca söyle.
+Bilgisayarda program, site ya da klasör açman istendiğinde ac aracını kullan; açtıktan sonra yalnızca "Açıyorum patron" gibi çok kısa bir cümle söyle.\n\nTakvim için araçların var: işleri sorulduğunda takvimi_getir, yeni bir şey eklemen istendiğinde is_ekle, bir iş bittiğinde is_durumu. Gün ve saatleri aşağıdaki şimdiki zamana göre hesapla. Ekledikten sonra ne eklediğini kısaca söyle.
 
 Dini konularda dikkatli ol: ayet ya da hadis aktarırken emin olmadığın bir metni uydurma; emin değilsen bunu açıkça söyle ve Diyanet'in kaynaklarına bakmasını öner. Fıkhi meselelerde görüş ayrılıklarını belirt.
 
@@ -124,7 +139,8 @@ function yerelIso(d) {
   return `${d.getFullYear()}-${iki(d.getMonth() + 1)}-${iki(d.getDate())}T${iki(d.getHours())}:${iki(d.getMinutes())}`;
 }
 
-function araciCalistir(ad, girdi, takvim) {
+async function araciCalistir(ad, girdi, takvim) {
+  if (ad === 'ac') return acici.ac(girdi);
   if (ad === 'takvimi_getir') {
     const gun = String(girdi.tarih || '').slice(0, 10);
     const isler = takvim.oku()
@@ -147,7 +163,24 @@ function araciCalistir(ad, girdi, takvim) {
   throw new Error('Bilinmeyen araç: ' + ad);
 }
 
+// "Chrome'u aç" gibi basit komutlar Claude'a gitmeden, anında yapılır
+async function hizliKomut(metin) {
+  const m = String(metin).trim().replace(/[.!?]+$/, '').match(/^(.+?)\s+(aç|açar mısın|açsana|açabilir misin|başlat)$/i);
+  if (!m) return null;
+  const hedef = m[1].replace(/^(bana|lütfen|hey)\s+/i, '');
+  for (const tur of ['klasor', 'program', 'site']) {
+    try {
+      if (tur === 'site' && !/\.|youtube|google|gmail|whatsapp|instagram|twitter|diyanet|kuran/i.test(hedef)) continue;
+      const r = await acici.ac({ tur, hedef });
+      return { cevap: 'Açıyorum patron.', acildi: r.acildi };
+    } catch { /* sıradaki türü dene */ }
+  }
+  return null;
+}
+
 async function sor(metin, baglam, takvim) {
+  const hizli = await hizliKomut(metin);
+  if (hizli) return hizli;
   const anahtar = anahtarOku();
   if (!anahtar) return { anahtarYok: true };
   if (!istemci) istemci = new Anthropic({ apiKey: anahtar });
@@ -195,8 +228,8 @@ async function sor(metin, baglam, takvim) {
     for (const blok of cevap.content) {
       if (blok.type !== 'tool_use') continue;
       try {
-        const sonuc = araciCalistir(blok.name, blok.input, takvim);
-        if (blok.name !== 'takvimi_getir') takvimDegisti = true;
+        const sonuc = await araciCalistir(blok.name, blok.input, takvim);
+        if (blok.name === 'is_ekle' || blok.name === 'is_durumu') takvimDegisti = true;
         sonuclar.push({ type: 'tool_result', tool_use_id: blok.id, content: JSON.stringify(sonuc) });
       } catch (e) {
         sonuclar.push({ type: 'tool_result', tool_use_id: blok.id, content: String(e.message || e), is_error: true });

@@ -1,7 +1,7 @@
 {
   "name": "acilis-ekrani",
   "productName": "Açılış Ekranı",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Bilgisayar açılınca gelen takvim, ayet, hadis ve İslam sanatı ekranı",
   "main": "src/main.js",
   "scripts": {

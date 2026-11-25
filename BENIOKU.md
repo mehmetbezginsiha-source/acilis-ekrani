@@ -21,6 +21,7 @@ Bilgisayar açılınca gelen ekran: saat saat bugünün takvimi, günün ayeti, 
 - Konuşma bilgisayarda yazıya çevrilir (Whisper small, ilk kullanımda ~250 MB indirilir, `%APPDATA%\AcilisEkrani\modeller`).
 - Cevapları Claude verir; takvime bakabilir, iş ekleyebilir, işi yapıldı işaretleyebilir. İlk kullanımda Claude API anahtarı sorulur; anahtar Windows şifrelemesiyle yalnızca bu bilgisayarda saklanır.
 - Cevaplar Türkçe nöral sesle (Ahmet) okunur.
+- "Chrome'u aç", "YouTube'u aç", "Word'ü aç", "indirilenleri aç" gibi komutlar anında yapılır (API anahtarı gerekmez). Programlar Başlat menüsündeki kısayollardan bulunur; yalnızca yüklü programlar, web siteleri ve bilinen klasörler açılabilir. "Şunu Google'da ara" gibi daha serbest istekleri Claude anlayıp yapar.
 
 ## Koddan çalıştırmak (geliştirme)
 Node.js 20+ kurulu olmalı.

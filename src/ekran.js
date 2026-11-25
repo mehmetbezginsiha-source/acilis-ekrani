@@ -27,6 +27,12 @@ async function baslat() {
     $('eserBilgi').textContent = [v.gorsel.donem, v.gorsel.tarih, v.gorsel.yer].filter(Boolean).join(' · ') + ' · The Met, açık erişim (CC0)';
   }
 
+  window.gunBaglam = {
+    ozelGun: (v.gun?.ozel || []).map((o) => o.yazi).join(', '),
+    ayet: v.ayet ? `${v.ayet.sure} ${v.ayet.ayet}: ${v.ayet.meal}` : '',
+    hadis: v.hadis ? `${v.hadis.turkce} (${v.hadis.kaynak})` : '',
+  };
+
   if (v.gun?.ozel?.length) {
     $('ozelGun').textContent = v.gun.ozel.map((o) => o.yazi).join(' · ');
     $('ozelGun').hidden = false;
@@ -56,6 +62,8 @@ async function baslat() {
   await document.fonts.ready;
   sigdir();
   window.addEventListener('resize', sigdir);
+  document.fonts.addEventListener('loadingdone', sigdir);
+  setTimeout(sigdir, 1500);
 
   const ses = $('karsilama');
   ses.src = window.ekran.dosyaUrl(v.ses);

@@ -102,6 +102,36 @@ header .ozelGun { display: inline-block; margin: 12px 0 0; padding: 6px 12px; bo
 .sol.k2 header .saat { font-size: 64px; } .sol.k2 #ayetArapca { font-size: 21px; line-height: 1.8; } .sol.k2 .arapca { font-size: 18px; line-height: 1.75; } .sol.k2 .meal { font-size: 14.5px; line-height: 1.45; }
 .sol.k3 header .saat { font-size: 52px; } .sol.k3 #ayetArapca { font-size: 19px; } .sol.k3 .arapca { font-size: 16.5px; } .sol.k3 .meal { font-size: 13.5px; } .sol.k3 .kaynak { font-size: 11.5px; }
 
+/* Sesli asistan */
+.asistan { position: fixed; right: 44px; bottom: 14px; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; z-index: 5; }
+.asistanDugmeler { display: flex; align-items: center; gap: 8px; }
+.mikrofon { width: 50px; height: 50px; border-radius: 50%; border: 1px solid rgba(217,183,110,0.6); background: rgba(8,18,21,0.8); color: var(--altin); display: grid; place-items: center; cursor: pointer; backdrop-filter: blur(14px); transition: transform .15s, background .2s; }
+.mikrofon svg { width: 22px; height: 22px; fill: currentColor; }
+.mikrofon:hover { transform: scale(1.05); }
+.asistan[data-durum="dinliyor"] .mikrofon { background: var(--altin); color: #1b1508; animation: nabiz 1.2s ease-in-out infinite; }
+.asistan[data-durum="dusunuyor"] .mikrofon, .asistan[data-durum="hazirlaniyor"] .mikrofon { opacity: .7; animation: nabiz 2s ease-in-out infinite; }
+.asistan[data-durum="konusuyor"] .mikrofon { border-color: var(--firuze); color: var(--firuze); }
+@keyframes nabiz { 0%,100% { box-shadow: 0 0 0 0 rgba(217,183,110,.5); } 50% { box-shadow: 0 0 0 10px rgba(217,183,110,0); } }
+.kucukDugme { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--cam-kenar); background: rgba(8,18,21,0.7); color: var(--soluk); cursor: pointer; font-size: 15px; }
+.kucukDugme:hover { color: var(--yazi); }
+.balon { width: min(440px, 40vw); background: rgba(8,18,21,0.9); border: 1px solid var(--cam-kenar); border-radius: 16px; padding: 14px 16px; backdrop-filter: blur(14px); box-shadow: 0 10px 40px rgba(0,0,0,.35); }
+.balon .soru { margin: 0 0 6px; font-size: 13px; color: var(--soluk); }
+.balon .soru:empty { display: none; }
+.balon .cevap { margin: 0; font-family: var(--serif); font-size: 16.5px; line-height: 1.5; max-height: 40vh; overflow-y: auto; }
+.balon .cevap.bekliyor { color: var(--soluk); font-style: italic; }
+.yaziFormu input { width: min(440px, 40vw); height: 42px; border-radius: 12px; border: 1px solid var(--cam-kenar); background: rgba(8,18,21,0.9); color: var(--yazi); font: 14.5px var(--ui); padding: 0 14px; }
+.yaziFormu input:focus { outline: 2px solid var(--altin); outline-offset: -1px; }
+.anahtarPencere { border: 1px solid var(--cam-kenar); border-radius: 16px; background: #0f1e22; color: var(--yazi); padding: 22px 24px; width: min(460px, 90vw); }
+.anahtarPencere::backdrop { background: rgba(0,0,0,.55); }
+.anahtarPencere h3 { margin: 0 0 8px; font-family: var(--serif); font-size: 20px; color: var(--altin-acik); }
+.anahtarPencere p { margin: 0 0 14px; font-size: 14px; line-height: 1.5; color: var(--soluk); }
+.anahtarPencere input { width: 100%; height: 42px; border-radius: 10px; border: 1px solid var(--cam-kenar); background: rgba(255,255,255,.04); color: var(--yazi); font: 14px var(--ui); padding: 0 12px; }
+.hataYazi { color: var(--uyari) !important; margin-top: 10px !important; }
+.pencereDugmeler { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }
+.pencereDugmeler button { height: 38px; padding: 0 16px; border-radius: 10px; border: none; background: var(--altin); color: #1b1508; font: 600 14px var(--ui); cursor: pointer; }
+.pencereDugmeler .ikincil { background: transparent; color: var(--soluk); border: 1px solid var(--cam-kenar); }
+main { padding-bottom: 80px; }
+
 @media (max-width: 1180px) {
   main { grid-template-columns: 1fr 1fr; overflow-y: auto; }
   .orta { display: none; }

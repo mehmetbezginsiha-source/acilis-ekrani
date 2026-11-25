@@ -4,6 +4,9 @@ const path = require('path');
 const fs = require('fs');
 const { ozelGunler, sec } = require('./gunler');
 const guncelleyici = require('./guncelleme');
+// Asistan modülü ihtiyaç anında yüklenir: bir sorun olsa bile uygulama ve güncelleyici açılmaya devam eder
+let _asistan = null;
+const asistanModulu = () => (_asistan ||= require('./asistan'));
 
 const KOK = path.join(__dirname, '..');
 const KULLANICI = () => app.getPath('userData');
@@ -128,6 +131,40 @@ ipcMain.handle('is-yapildi', (_e, id) => {
   if (is) is.yapildi = !is.yapildi; isleriYaz(l); return l;
 });
 ipcMain.handle('is-sil', (_e, id) => { const l = isleriOku().filter((x) => x.id !== id); isleriYaz(l); return l; });
+
+// ---------- Sesli asistan ----------
+const takvim = {
+  oku: isleriOku,
+  ekle: (is) => {
+    const l = isleriOku();
+    const yeni = { id: Date.now().toString(36), baslik: String(is.baslik).slice(0, 200), baslangic: is.baslangic, sureDk: Number(is.sureDk) || 60, yapildi: false };
+    l.push(yeni); isleriYaz(l); return yeni;
+  },
+  durum: (id, yapildi) => {
+    const l = isleriOku(); const is = l.find((x) => x.id === id);
+    if (!is) return false;
+    is.yapildi = !!yapildi; isleriYaz(l); return true;
+  },
+};
+ipcMain.handle('anahtar-var', () => { try { return asistanModulu().anahtarVar(); } catch { return false; } });
+ipcMain.handle('anahtar-kaydet', (_e, a) => { try { asistanModulu().anahtarKaydet(a); return { tamam: true }; } catch (e) { return { hata: e.message }; } });
+ipcMain.handle('asistan-hazirla', async () => {
+  try { await asistanModulu().tanimaYukle((p) => pencere?.webContents.send('model-indirme', p)); return { tamam: true }; }
+  catch (e) { return { hata: 'Ses modeli yüklenemedi: ' + (e.message || e) }; }
+});
+ipcMain.handle('asistan-dinle', async (_e, ses) => {
+  try { return { metin: await asistanModulu().yaziyaCevir(ses) }; } catch (e) { return { hata: 'Sesi anlayamadım: ' + (e.message || e) }; }
+});
+ipcMain.handle('asistan-sor', async (_e, metin, baglam) => {
+  try {
+    const r = await asistanModulu().sor(metin, baglam, takvim);
+    if (r.takvimDegisti) pencere?.webContents.send('isler-degisti');
+    return r;
+  } catch (e) { return { hata: String(e.message || e) }; }
+});
+ipcMain.handle('asistan-seslendir', async (_e, metin) => {
+  try { return { ses: await asistanModulu().seslendir(metin) }; } catch (e) { return { hata: String(e.message || e) }; }
+});
 
 app.on('second-instance', pencereyiGoster);
 app.whenReady().then(() => {

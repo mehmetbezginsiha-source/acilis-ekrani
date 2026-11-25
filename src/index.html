@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' file:; img-src 'self' file: data:; media-src 'self' file:; style-src 'self' 'unsafe-inline'; font-src 'self' file:">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' file:; img-src 'self' file: data:; media-src 'self' file: blob:; style-src 'self' 'unsafe-inline'; font-src 'self' file:">
   <title>Açılış Ekranı</title>
   <link rel="stylesheet" href="stil.css">
 </head>
@@ -64,7 +64,38 @@
     <span id="eserBilgi"></span>
   </footer>
 
+  <div id="asistan" class="asistan" data-durum="hazir">
+    <div id="balon" class="balon" hidden>
+      <p class="soru" id="balonSoru"></p>
+      <p class="cevap" id="balonCevap"></p>
+    </div>
+    <form id="yaziFormu" class="yaziFormu" hidden autocomplete="off">
+      <input id="yaziGirdi" placeholder="Yaz ve Enter'a bas…" maxlength="1000">
+    </form>
+    <div class="asistanDugmeler">
+      <button id="klavyeDugme" class="kucukDugme" type="button" title="Yazarak sor">⌨</button>
+      <button id="mikrofon" class="mikrofon" type="button" title="Konuş (kısayol: Ctrl+Boşluk)">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v6a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-2.08A7 7 0 0 0 19 12h-2Z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <dialog id="anahtarPencere" class="anahtarPencere">
+    <form method="dialog" id="anahtarFormu">
+      <h3>Asistanı etkinleştir</h3>
+      <p>Asistanın sorularına cevap verebilmesi için bir Claude API anahtarı gerekiyor. Anahtar yalnızca bu bilgisayarda, şifreli olarak saklanır.</p>
+      <input id="anahtarGirdi" type="password" placeholder="sk-ant-…" autocomplete="off" required>
+      <p class="hataYazi" id="anahtarHata" hidden></p>
+      <div class="pencereDugmeler">
+        <button type="button" id="anahtarIptal" class="ikincil">Vazgeç</button>
+        <button type="submit" id="anahtarKaydet">Kaydet</button>
+      </div>
+    </form>
+  </dialog>
+
   <audio id="karsilama" preload="auto"></audio>
+  <audio id="asistanSes"></audio>
   <script src="ekran.js"></script>
+  <script src="asistan-arayuz.js"></script>
 </body>
 </html>

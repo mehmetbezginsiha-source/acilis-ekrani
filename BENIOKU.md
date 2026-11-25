@@ -16,6 +16,12 @@ Bilgisayar açılınca gelen ekran: saat saat bugünün takvimi, günün ayeti, 
 - **Arka plan:** `gorseller/` klasöründe Metropolitan Sanat Müzesi'nin İslam Sanatı bölümünden 39 açık erişim (CC0) eser var. Her açılışta bir öncekinden farklı biri seçilir.
 - **Ses:** `ses/hos-geldiniz.mp3` ("Hoş geldin patron"), Microsoft'un Türkçe nöral sesi (Ahmet) ile üretildi, hafif yankı eklendi. %50 seviyede çalar.
 
+## Sesli asistan
+- Sağ alttaki mikrofon düğmesine bas (ya da Ctrl+Boşluk) ve konuş; susunca kendiliğinden dinlemeyi bırakır. ⌨ düğmesiyle yazarak da sorabilirsin.
+- Konuşma bilgisayarda yazıya çevrilir (Whisper small, ilk kullanımda ~250 MB indirilir, `%APPDATA%\AcilisEkrani\modeller`).
+- Cevapları Claude verir; takvime bakabilir, iş ekleyebilir, işi yapıldı işaretleyebilir. İlk kullanımda Claude API anahtarı sorulur; anahtar Windows şifrelemesiyle yalnızca bu bilgisayarda saklanır.
+- Cevaplar Türkçe nöral sesle (Ahmet) okunur.
+
 ## Koddan çalıştırmak (geliştirme)
 Node.js 20+ kurulu olmalı.
 ```

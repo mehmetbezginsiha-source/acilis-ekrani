@@ -1,7 +1,7 @@
 {
   "name": "acilis-ekrani",
   "productName": "Açılış Ekranı",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Bilgisayar açılınca gelen takvim, ayet, hadis ve İslam sanatı ekranı",
   "main": "src/main.js",
   "scripts": {
@@ -21,7 +21,10 @@
       "veri/**/*",
       "gorseller/**/*",
       "ses/**/*",
-      "package.json"
+      "package.json",
+      "!**/node_modules/onnxruntime-node/bin/napi-v6/darwin/**",
+      "!**/node_modules/onnxruntime-node/bin/napi-v6/linux/**",
+      "!**/node_modules/onnxruntime-node/bin/napi-v6/win32/arm64/**"
     ],
     "win": {
       "target": [
@@ -36,9 +39,17 @@
         "repo": "acilis-ekrani",
         "releaseType": "release"
       }
+    ],
+    "asarUnpack": [
+      "**/node_modules/onnxruntime-node/**",
+      "**/node_modules/sharp/**",
+      "**/node_modules/@img/**"
     ]
   },
   "dependencies": {
-    "electron-updater": "^6.3.9"
+    "@anthropic-ai/sdk": "^1.14.0",
+    "@huggingface/transformers": "^4.3.2",
+    "electron-updater": "^6.3.9",
+    "msedge-tts": "^2.1.1"
   }
 }

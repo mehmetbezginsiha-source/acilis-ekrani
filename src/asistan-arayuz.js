@@ -60,7 +60,6 @@
   // ---------- Mikrofon: konuşmayı kaydet, sessizlikte kendiliğinden dur ----------
   let kayit = null;
   async function dinlemeyeBasla() {
-    if (!(await window.asistan.anahtarVar())) { anahtarIste(dinlemeyeBasla); return; }
     sesCalar.pause();
     if (!dinlemeyeBasla.modelHazir) {
       durum('hazirlaniyor');

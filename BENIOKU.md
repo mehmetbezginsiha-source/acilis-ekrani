@@ -9,7 +9,7 @@ Bilgisayar açılınca gelen ekran: saat saat bugünün takvimi, günün ayeti, 
 4. Pencereyi kapatınca uygulama tepsiye iner ve hatırlatıcılar çalışmaya devam eder. Tamamen kapatmak için tepsi menüsünden **Çıkış**.
 
 ## Ne yapıyor
-- **Takvim:** "Yeni iş ekle" alanına işi, saati ve süreyi yaz, + ile ekle. ✓ ile yapıldı işaretle, ✕ ile sil. İşler `%APPDATA%\AcilisEkrani\takvim.json` içinde saklanır.
+- **Takvim:** Varsayılan haftalık görünüm (Pazartesi–Pazar, saat saat); sağ üstten Gün/Hafta arasında geçilir, ‹ › ile haftalar arasında gezilir. İş eklerken gün, saat ve süre seçilir; bir hücreye çift tıklamak o gün ve saati forma doldurur. ✓ ile yapıldı, ✕ ile sil (haftalık görünümde işin üzerine gelince görünür). İşler `%APPDATA%\AcilisEkrani\takvim.json` içinde saklanır.
 - **Hatırlatıcı:** İşin saati gelince Windows bildirimi çıkar. Bitiş saatinden 15 dakika sonra hâlâ yapılmadıysa "Süresi geçti" bildirimi çıkar ve iş turuncu görünür.
 - **Ayet:** `veri/ayetler.json` içinde çalışma, emek ve sabır üzerine 14 ayet var. Arapça metin, Tanzil Projesi'nin (tanzil.net) uzmanlarca doğrulanmış Uthmani metni; hiç değiştirilmeden kullanıldı. Meal, Diyanet İşleri meali (Tanzil'deki tr.diyanet). Mealin birden fazla ayeti birlikte çevirdiği yerler, Arapça ile meal birebir örtüşsün diye listeye alınmadı.
 - **Hadis:** `veri/hadisler.json` içinde 7 hadis var (Arapça, Türkçe, kaynak). Hepsi `dogrulandi: false`; Diyanet'in "Hadislerle İslam" eseriyle kontrol edilmeli.

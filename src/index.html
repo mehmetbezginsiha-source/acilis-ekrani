@@ -40,11 +40,23 @@
 
     <section class="sag">
       <div class="takvimBaslik">
-        <h2>Bugün</h2>
-        <span id="ozet"></span>
+        <div class="baslikSol">
+          <h2 id="takvimBaslikYazi">Bu hafta</h2>
+          <span id="ozet"></span>
+        </div>
+        <div class="takvimKontrol">
+          <button type="button" id="oncekiHafta" class="hafifDugme haftaOgesi" title="Önceki hafta">‹</button>
+          <button type="button" id="buHafta" class="hafifDugme haftaOgesi">Bugün</button>
+          <button type="button" id="sonrakiHafta" class="hafifDugme haftaOgesi" title="Sonraki hafta">›</button>
+          <div class="gorunumSecici" role="tablist">
+            <button type="button" data-gorunum="gun">Gün</button>
+            <button type="button" data-gorunum="hafta">Hafta</button>
+          </div>
+        </div>
       </div>
       <form id="isFormu" autocomplete="off">
         <input id="isBaslik" placeholder="Yeni iş ekle…" required maxlength="200">
+        <input id="isTarih" type="date" required title="Gün">
         <input id="isSaat" type="time" required>
         <select id="isSure" title="Süre">
           <option value="30">30 dk</option>
@@ -56,6 +68,7 @@
         <button type="submit" title="Ekle">+</button>
       </form>
       <ol id="saatler"></ol>
+      <div id="hafta" class="hafta" hidden></div>
     </section>
   </main>
 

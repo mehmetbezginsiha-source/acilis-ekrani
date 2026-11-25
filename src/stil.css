@@ -59,11 +59,54 @@ header .ozelGun { display: inline-block; margin: 12px 0 0; padding: 6px 12px; bo
 .kart.uzun #ayetArapca { font-size: 25px; } .kart.uzun .arapca { font-size: 22px; } .kart.uzun .meal { font-size: 16.5px; }
 .kart.cokUzun #ayetArapca { font-size: 22px; line-height: 1.85; } .kart.cokUzun .arapca { font-size: 19px; } .kart.cokUzun .meal { font-size: 15px; line-height: 1.5; }
 
-.takvimBaslik { display: flex; align-items: baseline; justify-content: space-between; }
+.takvimBaslik { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.baslikSol { display: flex; flex-direction: column; gap: 2px; }
+.takvimKontrol { display: flex; align-items: center; gap: 6px; }
+.hafifDugme { height: 30px; min-width: 30px; padding: 0 10px; border-radius: 8px; border: 1px solid var(--cam-kenar); background: var(--cam); color: var(--yazi); font: 13px var(--ui); cursor: pointer; }
+.hafifDugme:hover { border-color: var(--altin); }
+.gorunumSecici { display: flex; border: 1px solid var(--cam-kenar); border-radius: 9px; overflow: hidden; background: var(--cam); }
+.gorunumSecici button { height: 30px; padding: 0 12px; border: none; background: transparent; color: var(--soluk); font: 13px var(--ui); cursor: pointer; }
+.gorunumSecici button.secili { background: var(--altin); color: #1b1508; font-weight: 600; }
+
+/* Haftalık görünüm: takvim orta ve sağ sütunu kaplar */
+body.haftaGorunumu .orta { display: none; }
+body.haftaGorunumu .sag { grid-column: 2 / 4; }
+body.haftaGorunumu #eser { left: 44px; transform: none; text-align: left; max-width: calc(31vw - 20px); bottom: 18px; }
+.hafta { flex: 1; min-height: 0; overflow-y: auto; display: grid; grid-template-columns: 54px repeat(7, minmax(0, 1fr)); grid-auto-rows: minmax(46px, auto); background: var(--cam); border: 1px solid var(--cam-kenar); border-radius: 16px; backdrop-filter: blur(14px); }
+.hafta::-webkit-scrollbar { width: 6px; }
+.hafta::-webkit-scrollbar-thumb { background: var(--cam-kenar); border-radius: 3px; }
+.hHucre { border-top: 1px solid rgba(255,255,255,0.06); border-left: 1px solid rgba(255,255,255,0.05); position: relative; min-width: 0; }
+.hafta[hidden], #saatler[hidden] { display: none; }
+.hKose, .hGunBaslik { position: sticky; top: 0; z-index: 5; background: #0b181c; border-top: none; border-bottom: 1px solid var(--cam-kenar); }
+.hGunBaslik { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 8px 0 6px; gap: 1px; }
+.hGunBaslik span { font-size: 11.5px; letter-spacing: .08em; text-transform: uppercase; color: var(--soluk); }
+.hGunBaslik b { font-size: 18px; font-weight: 500; }
+.hGunBaslik.bugun span { color: var(--altin); }
+.hGunBaslik.bugun b { background: var(--altin); color: #1b1508; border-radius: 999px; min-width: 30px; padding: 1px 8px; text-align: center; }
+.hGunBaslik.gecmis { opacity: .55; }
+.hSaat { z-index: 0; border-left: none; padding: 6px 0 0 12px; font-size: 12px; color: var(--soluk); font-variant-numeric: tabular-nums; }
+.hGovde { isolation: isolate; z-index: 0; padding: 3px; display: flex; flex-direction: column; gap: 3px; }
+.hGovde.bugun { background: rgba(217,183,110,0.06); }
+.hGovde.gecmis { background-image: linear-gradient(rgba(0,0,0,0.12), rgba(0,0,0,0.12)); }
+.hGovde:hover { outline: 1px dashed rgba(217,183,110,0.25); outline-offset: -2px; }
+.simdiCizgi.hafta { left: 0; right: 0; }
+.hIs { position: relative; display: flex; flex-direction: column-reverse; gap: 1px; padding: 4px 7px; border-radius: 6px; background: rgba(79,179,169,0.22); border-left: 3px solid var(--firuze); font-size: 12.5px; line-height: 1.3; min-width: 0; }
+.hIs .ad { min-width: 0; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; word-break: break-word; }
+.hIs .zaman { font-size: 11px; color: var(--soluk); font-variant-numeric: tabular-nums; }
+.hIs.yapildi { opacity: .5; } .hIs.yapildi .ad { text-decoration: line-through; }
+.hIs.gecikti { background: rgba(229,149,118,0.2); border-left-color: var(--uyari); }
+.hIsDugmeler { display: none; position: absolute; right: 3px; top: 3px; gap: 2px; background: rgba(10,22,26,0.95); border-radius: 6px; padding: 1px; }
+.hIs:hover .hIsDugmeler { display: flex; }
+.hIsDugmeler button { all: unset; cursor: pointer; width: 20px; height: 20px; display: grid; place-items: center; border-radius: 5px; font-size: 11px; color: var(--soluk); }
+.hIsDugmeler button:hover { color: var(--yazi); background: rgba(255,255,255,0.1); }
 .takvimBaslik h2 { margin: 0; }
 #ozet { font-size: 13px; color: var(--soluk); }
 
-#isFormu { display: grid; grid-template-columns: 1fr 92px 84px 40px; gap: 8px; }
+#isFormu { display: grid; grid-template-columns: 1.3fr 1fr 84px 40px; gap: 8px; }
+#isFormu #isBaslik { grid-column: 1 / -1; }
+body.haftaGorunumu #isFormu { grid-template-columns: 1fr 140px 100px 96px 40px; }
+body.haftaGorunumu #isFormu #isBaslik { grid-column: auto; }
+#isFormu input[type=date]::-webkit-calendar-picker-indicator { filter: invert(0.85); }
 #isFormu input, #isFormu select, #isFormu button { height: 40px; border-radius: 10px; border: 1px solid var(--cam-kenar); background: var(--cam); color: var(--yazi); font: 14px var(--ui); padding: 0 10px; min-width: 0; backdrop-filter: blur(14px); }
 #isFormu input::placeholder { color: var(--soluk); }
 #isFormu input:focus, #isFormu select:focus { outline: 2px solid var(--altin); outline-offset: -1px; }

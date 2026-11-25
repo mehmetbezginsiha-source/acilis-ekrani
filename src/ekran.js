@@ -73,7 +73,8 @@ async function baslat() {
   if (v.gun?.hicri) saatGuncelle.hicri = `${v.gun.hicri.gun} ${v.gun.hicri.ayAdi} ${v.gun.hicri.yil} (Hicrî)`;
   saatGuncelle();
   setInterval(saatGuncelle, 1000 * 15);
-  await takvimCiz();
+  $('isTarih').value = tarihYaz(new Date());
+  gorunumUygula();
   setInterval(takvimCiz, 60 * 1000);
   window.ekran.islerDegisince(takvimCiz);
 
@@ -94,6 +95,8 @@ function sigdir() {
 
 async function takvimCiz() {
   const isler = await window.ekran.isler();
+  if (gorunum === 'hafta') return haftaCiz(isler);
+  $('takvimBaslikYazi').textContent = 'Bugün';
   const bugun = new Date(); bugun.setHours(0, 0, 0, 0);
   const yarin = new Date(bugun); yarin.setDate(yarin.getDate() + 1);
   const simdi = new Date();
@@ -147,11 +150,110 @@ function isOgesi(is, simdi) {
 
 $('isFormu').addEventListener('submit', async (e) => {
   e.preventDefault();
+  const [yil, ay, gun] = $('isTarih').value.split('-').map(Number);
   const [sa, dk] = $('isSaat').value.split(':').map(Number);
-  const bas = new Date(); bas.setHours(sa, dk, 0, 0);
+  const bas = new Date(yil, ay - 1, gun, sa, dk, 0, 0);
   await window.ekran.isEkle({ baslik: $('isBaslik').value.trim(), baslangic: bas.toISOString(), sureDk: Number($('isSure').value) });
   $('isBaslik').value = '';
   takvimCiz();
 });
+
+// ---------- Gün / hafta görünümü ----------
+const GUN_ADLARI = ['Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt', 'Paz'];
+let gorunum = 'hafta';
+try { gorunum = localStorage.getItem('gorunum') || 'hafta'; } catch {}
+let haftaKaydir = 0;
+const tarihYaz = (d) => `${d.getFullYear()}-${iki(d.getMonth() + 1)}-${iki(d.getDate())}`;
+const ayniGun = (a, b) => a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+
+function haftaBaslangici(kaydir = 0) {
+  const d = new Date(); d.setHours(0, 0, 0, 0);
+  d.setDate(d.getDate() - ((d.getDay() + 6) % 7) + kaydir * 7); // pazartesi
+  return d;
+}
+
+function gorunumUygula() {
+  document.body.classList.toggle('haftaGorunumu', gorunum === 'hafta');
+  $('saatler').hidden = gorunum === 'hafta';
+  $('hafta').hidden = gorunum !== 'hafta';
+  document.querySelectorAll('.gorunumSecici button').forEach((b) => b.classList.toggle('secili', b.dataset.gorunum === gorunum));
+  document.querySelectorAll('.haftaOgesi').forEach((b) => { b.hidden = gorunum !== 'hafta'; });
+  takvimCiz.ilkKez = false;
+  takvimCiz();
+}
+document.querySelectorAll('.gorunumSecici button').forEach((b) => b.onclick = () => {
+  gorunum = b.dataset.gorunum; try { localStorage.setItem('gorunum', gorunum); } catch {}
+  gorunumUygula();
+});
+$('oncekiHafta').onclick = () => { haftaKaydir--; takvimCiz(); };
+$('sonrakiHafta').onclick = () => { haftaKaydir++; takvimCiz(); };
+$('buHafta').onclick = () => { haftaKaydir = 0; takvimCiz.ilkKez = false; takvimCiz(); };
+
+function haftaCiz(isler) {
+  const simdi = new Date();
+  const bas = haftaBaslangici(haftaKaydir);
+  const gunler = [...Array(7)].map((_, i) => { const d = new Date(bas); d.setDate(d.getDate() + i); return d; });
+  const bitis = new Date(bas); bitis.setDate(bitis.getDate() + 7);
+  const haftaIsleri = isler.map((i) => ({ ...i, bas: new Date(i.baslangic) })).filter((i) => i.bas >= bas && i.bas < bitis).sort((a, b) => a.bas - b.bas);
+  const ilk = Math.min(ILK_SAAT, ...haftaIsleri.map((i) => i.bas.getHours()));
+
+  const kap = $('hafta');
+  const kaydirma = kap.scrollTop;
+  kap.innerHTML = '';
+  // başlık satırı
+  kap.appendChild(Object.assign(document.createElement('div'), { className: 'hHucre hKose' }));
+  for (const [i, g] of gunler.entries()) {
+    const h = document.createElement('div');
+    h.className = 'hHucre hGunBaslik' + (ayniGun(g, simdi) ? ' bugun' : '') + (g < simdi && !ayniGun(g, simdi) ? ' gecmis' : '');
+    h.innerHTML = `<span>${GUN_ADLARI[i]}</span><b>${g.getDate()}</b>`;
+    kap.appendChild(h);
+  }
+  let simdiHucre = null;
+  for (let s = ilk; s <= SON_SAAT; s++) {
+    const e = document.createElement('div');
+    e.className = 'hHucre hSaat'; e.textContent = `${iki(s)}:00`;
+    kap.appendChild(e);
+    for (const g of gunler) {
+      const c = document.createElement('div');
+      const buGun = ayniGun(g, simdi);
+      c.className = 'hHucre hGovde' + (buGun ? ' bugun' : '');
+      const hucreSonu = new Date(g); hucreSonu.setHours(s + 1);
+      if (hucreSonu < simdi) c.classList.add('gecmis');
+      for (const is of haftaIsleri.filter((i) => ayniGun(i.bas, g) && i.bas.getHours() === s)) c.appendChild(haftaIsOgesi(is, simdi));
+      if (buGun && s === simdi.getHours()) {
+        const cz = document.createElement('div'); cz.className = 'simdiCizgi hafta';
+        cz.style.top = `${(simdi.getMinutes() / 60) * 100}%`; c.appendChild(cz); simdiHucre = c;
+      }
+      c.addEventListener('dblclick', (ev) => {
+        if (ev.target !== c) return;
+        $('isTarih').value = tarihYaz(g); $('isSaat').value = `${iki(s)}:00`; $('isBaslik').focus();
+      });
+      c.title = 'Bu saate iş eklemek için çift tıkla';
+      kap.appendChild(c);
+    }
+  }
+  const son = new Date(bitis); son.setDate(son.getDate() - 1);
+  const ayAdi = (d) => d.toLocaleDateString('tr-TR', { month: 'long' });
+  $('takvimBaslikYazi').textContent = haftaKaydir === 0 ? 'Bu hafta' : `${bas.getDate()} ${bas.getMonth() !== son.getMonth() ? ayAdi(bas) + ' ' : ''}– ${son.getDate()} ${ayAdi(son)}`;
+  const kalan = haftaIsleri.filter((i) => !i.yapildi).length;
+  $('ozet').textContent = haftaIsleri.length ? `${haftaIsleri.length} iş · ${kalan} kaldı` : 'Bu hafta iş yok';
+  if (!takvimCiz.ilkKez) {
+    const hedef = simdiHucre || kap.children[8 + 8 * Math.max(0, 8 - ilk)];
+    if (hedef) kap.scrollTop = Math.max(0, hedef.offsetTop - 90);
+    takvimCiz.ilkKez = true;
+  } else kap.scrollTop = kaydirma;
+}
+
+function haftaIsOgesi(is, simdi) {
+  const bit = new Date(is.bas.getTime() + (is.sureDk || 60) * 60000);
+  const d = document.createElement('div');
+  d.className = 'hIs' + (is.yapildi ? ' yapildi' : simdi > bit ? ' gecikti' : '');
+  d.innerHTML = `<span class="ad"></span><span class="zaman">${saatYaz(is.bas)}</span><span class="hIsDugmeler"><button class="isaret" title="Yapıldı">✓</button><button class="sil" title="Sil">✕</button></span>`;
+  d.querySelector('.ad').textContent = is.baslik;
+  d.title = `${is.baslik} · ${saatYaz(is.bas)}–${saatYaz(bit)}`;
+  d.querySelector('.isaret').onclick = async () => { await window.ekran.isYapildi(is.id); takvimCiz(); };
+  d.querySelector('.sil').onclick = async () => { await window.ekran.isSil(is.id); takvimCiz(); };
+  return d;
+}
 
 baslat();

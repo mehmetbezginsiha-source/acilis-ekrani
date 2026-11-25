@@ -1,9 +1,12 @@
-# Yeni sürüm etiketi (ör. v0.3.0) gönderilince Windows kurulum dosyasını derleyip
-# GitHub Releases'a koyar. Bilgisayardaki uygulama oradan kendini günceller.
+# main dalına gönderilen her değişiklikte: package.json'daki sürüm için henüz
+# yayın yoksa Windows kurulum dosyasını derleyip GitHub Releases'a koyar.
+# Bilgisayardaki uygulama oradan kendini günceller. Yeni sürüm için
+# package.json'daki "version" değerini artırmak yeterli.
 name: Windows sürümü yayınla
 on:
   push:
-    tags: ["v*"]
+    branches: [main]
+  workflow_dispatch:
 permissions:
   contents: write
 jobs:
@@ -11,11 +14,27 @@ jobs:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Bu sürüm zaten yayında mı?
+        id: kontrol
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          SURUM=$(node -p "require('./package.json').version")
+          if gh release view "v$SURUM" >/dev/null 2>&1; then
+            echo "v$SURUM zaten yayında, derleme atlanıyor."
+            echo "yayinla=hayir" >> "$GITHUB_OUTPUT"
+          else
+            echo "yayinla=evet" >> "$GITHUB_OUTPUT"
+          fi
       - uses: actions/setup-node@v4
+        if: steps.kontrol.outputs.yayinla == 'evet'
         with:
           node-version: 22
           cache: npm
       - run: npm ci
+        if: steps.kontrol.outputs.yayinla == 'evet'
       - run: npm run yayinla
+        if: steps.kontrol.outputs.yayinla == 'evet'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

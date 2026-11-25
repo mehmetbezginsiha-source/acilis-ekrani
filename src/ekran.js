@@ -10,7 +10,7 @@ function saatGuncelle() {
   $('tarih').textContent = d.toLocaleDateString('tr-TR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
   if (saatGuncelle.hicri) $('hicri').textContent = saatGuncelle.hicri;
   const s = d.getHours();
-  $('selam').textContent = s < 5 ? 'Hayırlı geceler' : s < 11 ? 'Hayırlı sabahlar' : s < 17 ? 'Hoş geldiniz' : 'Hayırlı akşamlar';
+  $('selam').textContent = 'Hoş geldin patron · ' + (s < 5 ? 'Hayırlı geceler' : s < 11 ? 'Hayırlı sabahlar' : s < 17 ? 'İyi çalışmalar' : 'Hayırlı akşamlar');
 }
 
 function metinKoy(id, metin) { $(id).textContent = metin || ''; $(id).hidden = !metin; }

@@ -14,7 +14,7 @@ Bilgisayar açılınca gelen ekran: saat saat bugünün takvimi, günün ayeti, 
 - **Ayet:** `veri/ayetler.json` içinde çalışma, emek ve sabır üzerine 14 ayet var. Arapça metin, Tanzil Projesi'nin (tanzil.net) uzmanlarca doğrulanmış Uthmani metni; hiç değiştirilmeden kullanıldı. Meal, Diyanet İşleri meali (Tanzil'deki tr.diyanet). Mealin birden fazla ayeti birlikte çevirdiği yerler, Arapça ile meal birebir örtüşsün diye listeye alınmadı.
 - **Hadis:** `veri/hadisler.json` içinde 7 hadis var (Arapça, Türkçe, kaynak). Hepsi `dogrulandi: false`; Diyanet'in "Hadislerle İslam" eseriyle kontrol edilmeli.
 - **Arka plan:** `gorseller/` klasöründe Metropolitan Sanat Müzesi'nin İslam Sanatı bölümünden 39 açık erişim (CC0) eser var. Her açılışta bir öncekinden farklı biri seçilir.
-- **Ses:** `ses/hos-geldiniz.mp3`, Microsoft'un Türkçe nöral sesi (Ahmet) ile üretildi, hafif yankı eklendi. %50 seviyede çalar.
+- **Ses:** `ses/hos-geldiniz.mp3` ("Hoş geldin patron"), Microsoft'un Türkçe nöral sesi (Ahmet) ile üretildi, hafif yankı eklendi. %50 seviyede çalar.
 
 ## Koddan çalıştırmak (geliştirme)
 Node.js 20+ kurulu olmalı.
